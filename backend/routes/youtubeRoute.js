@@ -1,8 +1,20 @@
 const express = require('express');
 const axios = require('axios');
+const fs = require('fs');
 const youtubeRouter = express.Router();
-const api_key = 'AIzaSyC9aIax1XWLySUrZ6-lfwDN2LgHf39obQ4';  
+let api_key = null;
 const base_url = 'https://www.googleapis.com/youtube/v3';
+
+// readFile is asynchronous
+fs.readFile('./config.json', 'utf8', (err, data) => {
+    if (err) {
+        console.error('Error reading the file:', err);
+        return;
+    }
+    const config = JSON.parse(data);
+    api_key = config.youtubeKey;
+});
+
 
 youtubeRouter.get('/search', async (req, res, next) => {
     try {
