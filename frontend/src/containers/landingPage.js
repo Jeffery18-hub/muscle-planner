@@ -1,5 +1,3 @@
-// 
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AccountContext } from '../contexts/accountContext';
@@ -57,6 +55,11 @@ const RegisterButton = styled(AuthButton)`
     border: 2px solid #007BFF;
     color: #007BFF;
 `;
+const GuestButton = styled(AuthButton)`
+    background-color: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+`
 
 const LandingPage = () => {
     const navigate = useNavigate();
@@ -68,6 +71,10 @@ const LandingPage = () => {
 
     const handleRegisterClick = () => {
         navigate('/auth/signup');
+    }
+
+    const handleGuestClick = () => {
+        navigate('/guest');
     }
 
     if (isLoggedIn) {
@@ -83,6 +90,7 @@ const LandingPage = () => {
             <div>
                 <LoginButton onClick={handleLoginClick}>Login</LoginButton>
                 <RegisterButton onClick={handleRegisterClick}>Create Account</RegisterButton>
+                <GuestButton onClick={handleGuestClick}>Guest Mode</GuestButton>
             </div>
         </LandingContainer>
     )

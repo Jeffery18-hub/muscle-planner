@@ -11,6 +11,7 @@ authRouter.post('/auth', (req, res) => {
                 res.send({ success: false, message: "Server error" });
                 return;
             }
+
             if (pwdCorrect && userExists) {
                 res.send({ success: true, message: "Sign in success" });
             }else if(!userExists) {
@@ -19,13 +20,19 @@ authRouter.post('/auth', (req, res) => {
             else if(userExists && !pwdCorrect) {
                 res.send({ success: false, message: "Incorrect password" });
             }
+
         });
     }else {
         // sign up
-        userModel.addUser(name, email, password, err => {
+        userModel.addUser(name, email, password, (err, userExists) => {
             if (err) {
                 res.send({ success: false, message: "Failed to add user. Please try again later." });
-            } else {
+                return;
+            } 
+            
+            if(userExists) {
+                res.send({ success: false, message: "User already exists" });
+            }else {
                 res.send({ success: true, message: "Sign up success" });
             }
         })

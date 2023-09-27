@@ -41,6 +41,8 @@ const Auth = ({info}) => {
           alert('Incorrect password');
         }else if (data.success === false && data.message === "User does found") {
           alert('User does not exist');
+        }else {
+          alert('Something went wrong');
         }
     })
     .catch(error => {

@@ -81,11 +81,15 @@ function Model({ setMuscleName, setMousePosition, onMouseClick }) {
     //Use cloneDeep to ensure not directly modifying the original gltf object
     const sceneClone = useMemo(() => gltf.scene.clone(true), [gltf.scene]);
     useEffect(() => {
+        let res = [];
         sceneClone.traverse((child) => {
             if (child instanceof Mesh) {
+                const name = child.name;
+                if(!name.includes('Object')) res.push(name);
                 child.material = child.material.clone();
             }
         });
+        console.log(res);
     }, [sceneClone]);
 
     return (
@@ -102,7 +106,7 @@ function Model({ setMuscleName, setMousePosition, onMouseClick }) {
 }
 
 function Anatomy({onMuscleClicked}) {
-    const [muscleName, setMuscleName] = useState(null);
+    const [muscleName, setMuscleName] = useState("");
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
     // This function will be called when the user clicks on a muscle on the model.
@@ -126,15 +130,15 @@ function Anatomy({onMuscleClicked}) {
                     />
                 <Environment files="/models/gym_01_4k.hdr" background />
             </Canvas>
-            {muscleName && (
+            {muscleName && !muscleName.includes('Object')? (
                 <MuscleTag 
-                    name={muscleName} 
+                    name={muscleName}
                     style={{ 
                         left: `${mousePosition.x}px`, 
                         top: `${mousePosition.y-30}px` 
                     }} 
                 />
-            )}
+            ): null}
         </div>
     );
 }

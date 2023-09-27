@@ -182,7 +182,7 @@ const Plan = ({ muscle, clickCount }) => {
                             <StyledTh>Repetitions</StyledTh>
                             <StyledTh>Sets</StyledTh>
                             <StyledTh>Maximum</StyledTh>
-                            <StyledTh>Operation</StyledTh>
+                            <StyledTh></StyledTh>
                         </StyledTr>
                     </thead>
                     <tbody>

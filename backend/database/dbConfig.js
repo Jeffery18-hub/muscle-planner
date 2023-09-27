@@ -20,14 +20,14 @@ const db = new sqlite3.Database('./mydatabase.db', (err) => {
         // training table
         db.run('CREATE TABLE IF NOT EXISTS training (\
             tid INTEGER PRIMARY KEY AUTOINCREMENT,\
-        uid INTEGER,\
-        date DATE NOT NULL,\
-        muscle TEXT NOT NULL,\
-        exercise TEXT NOT NULL,\
-        sets INTEGER NOT NULL,\
-        repititions INTEGER NOT NULL,\
-        maximum REAL,\
-        FOREIGN KEY(uid) REFERENCES users(uid)\
+            uid INTEGER,\
+            date DATE NOT NULL,\
+            muscle TEXT NOT NULL,\
+            exercise TEXT NOT NULL,\
+            sets INTEGER NOT NULL,\
+            repititions INTEGER NOT NULL,\
+            maximum REAL,\
+            FOREIGN KEY(uid) REFERENCES users(uid)\
         )', (err) => {
             if (err) {
                 console.log('Error creating trainning table:', err);

@@ -1,11 +1,11 @@
 import React from 'react';
 import {useState } from 'react';
 import styled from 'styled-components';
-import Anatomy from './anatomy';
-import Video from './video';
+import Anatomy from '../components/anatomy';
+import Plan from '../components/plan';
 
 
-const YoutubeContainer = styled.div`
+const HomeContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: stretch;
@@ -13,24 +13,26 @@ const YoutubeContainer = styled.div`
 `
 
 
-const Youtube = () => {
+const Home = () => {
     const [clickedMuscle, setClickedMuscle] = useState(null);
+    const [clickCount, setClickCount] = useState(0);
 
     // add new muscle to clickedMuscles
     const handleMuscleClick = (muscleName) => {
         setClickedMuscle(muscleName);
+        setClickCount(prevCount => prevCount + 1);
     }
 
     return(
-        <YoutubeContainer>
+        <HomeContainer>
             <div style={{ border: '1px solid black', width: '50%'}}>
                 <Anatomy onMuscleClicked={handleMuscleClick}/>
             </div>
             <div style={{ border: '1px solid black', width: '50%'}}>
-                <Video muscle={clickedMuscle}/>
+                <Plan muscle={clickedMuscle} clickCount={clickCount}/>
             </div>
-        </YoutubeContainer>
+        </HomeContainer>
     )
 }
 
-export default Youtube;
+export default Home;
