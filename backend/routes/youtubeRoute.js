@@ -6,17 +6,18 @@ let api_key = null;
 const base_url = 'https://www.googleapis.com/youtube/v3';
 
 // readFile is asynchronous
-fs.readFile('./config.json', 'utf8', (err, data) => {
-    if (err) {
-        console.error('Error reading the file:', err);
-        return;
-    }
-    const config = JSON.parse(data);
-    api_key = config.youtubeKey;
-});
+// fs.readFile('./config.json', 'utf8', (err, data) => {
+//     if (err) {
+//         console.error('Error reading the file:', err);
+//         return;
+//     }
+//     const config = JSON.parse(data);
+//     api_key = config.youtubeKey;
+// });
+api_key = process.env.YOUTUBE_API_KEY;
 
 
-youtubeRouter.get('/search', async (req, res, next) => {
+youtubeRouter.get('/', async (req, res, next) => {
     try {
         const searchQuery = req.query.search_query;
         const maxResults = 10; 

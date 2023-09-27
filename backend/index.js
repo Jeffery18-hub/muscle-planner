@@ -6,10 +6,15 @@ const app = express();
 const port = 5001;
 const path  = require('path')
 
+app.use(cors());
+app.use(express.json());
+
 const _dirname = path.dirname("")
 const buildPath = path.join(_dirname  , "../frontend/build");
 
-app.use(express.static(buildPath))
+app.use(express.static(buildPath));
+app.use("/auth",authRouter);
+app.use("/search", youtubeRouter);
 
 app.get("/*", function(req, res){
 
@@ -24,11 +29,7 @@ app.get("/*", function(req, res){
 
 })
 
-app.use(cors());
-app.use(express.json());
 
-app.use(authRouter);
-app.use(youtubeRouter);
 
 // app listen on port
 app.listen(port, () => {

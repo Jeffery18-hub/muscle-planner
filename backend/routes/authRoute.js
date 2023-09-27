@@ -2,7 +2,7 @@ const express = require('express');
 const authRouter = express.Router();
 const userModel = require('../database/userModel');
 
-authRouter.post('/auth', (req, res) => {
+authRouter.post('/', (req, res) => {
     const { email, password, name, authMode } = req.body;
     // sign in
     if (authMode === 'signin') {
@@ -15,7 +15,7 @@ authRouter.post('/auth', (req, res) => {
             if (pwdCorrect && userExists) {
                 res.send({ success: true, message: "Sign in success" });
             }else if(!userExists) {
-                res.send({ success: false, message: "User does found" });
+                res.send({ success: false, message: "User not found" });
             } 
             else if(userExists && !pwdCorrect) {
                 res.send({ success: false, message: "Incorrect password" });
