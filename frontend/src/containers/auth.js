@@ -17,7 +17,7 @@ const Auth = ({info}) => {
   }
 
   const handleSubmit = (event) => {
-    fetch('/auth', {
+    fetch('http://localhost:5001/auth', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

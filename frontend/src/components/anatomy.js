@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect, useMemo } from 'react';
-import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
-import { OrbitControls, Environment, useHelper } from '@react-three/drei';
+import { Canvas, useLoader, useThree } from '@react-three/fiber';
+import { OrbitControls, Environment} from '@react-three/drei';
 import { Mesh } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import styled from 'styled-components';
@@ -14,6 +14,7 @@ const StyledTag = styled.div`
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
     position: absolute;                    
 `;
+
 const MuscleTag = ({ name, style }) => {
     return (
         <StyledTag style={style}>{name}</StyledTag>

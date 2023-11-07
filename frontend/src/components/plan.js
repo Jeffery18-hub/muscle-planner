@@ -5,6 +5,7 @@ import styled, { keyframes } from 'styled-components';
 import html2canvas from "html2canvas";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import DatePicker from "react-date-picker";
 
 
 const DEFAULT_ROWS = 5;
@@ -32,6 +33,8 @@ const Plan = ({ muscle, clickCount }) => {
     const { register, handleSubmit, setValue, getValues, watch } = useForm();
     const [currentRows, setCurrentRows] = useState(DEFAULT_ROWS);
     const allFieldValues = watch();  // watch will return a form object and we can get values from here
+    const [dateValue, onChange] = useState(new Date());
+
 
     //initialize table
     useEffect(() => {
@@ -171,7 +174,7 @@ const Plan = ({ muscle, clickCount }) => {
         <StyledPlan>
             <h2 align="center">Plan</h2>
             <CalendarContainer>
-                <Calendar />
+                <DatePicker onChange={onChange} value = {dateValue} />
             </CalendarContainer>
             <StyledTableContainer>
                 <StyledTable id="planTable">
