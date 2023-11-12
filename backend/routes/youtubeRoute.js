@@ -7,7 +7,6 @@ let api_key = null;
 const base_url = 'https://www.googleapis.com/youtube/v3';
 
 api_key = process.env.YOUTUBE_API_KEY;
-//api_key = 'AIzaSyBMbtny_A1BkKwLHbpHaWI1w_a2PPfzsxo'
 console.log(api_key)
 
 
