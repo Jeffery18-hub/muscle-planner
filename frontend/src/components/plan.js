@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import Calendar from "./calendar";
+import MyDatePicker from "./myDatePicker";
 import styled, { keyframes } from 'styled-components';
 import html2canvas from "html2canvas";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,13 +11,13 @@ import DatePicker from "react-date-picker";
 const DEFAULT_ROWS = 5;
 const STORAGE_KEY = 'planData';
 
-const downloadTableAsImage= (tableId) =>{
+const downloadTableAsImage = (tableId) => {
     const userConfirmed = window.confirm("Are you sure you want to download the training plan?");
     if (!userConfirmed) {
         return;  // if the user cancels, do nothing
     }
     const table = document.getElementById(tableId);
-    
+
     html2canvas(table).then(canvas => {
         const imgURL = canvas.toDataURL('image/png');
         const link = document.createElement('a');
@@ -29,6 +29,59 @@ const downloadTableAsImage= (tableId) =>{
     });
 }
 
+const validatePlanData = (data) => {
+    const keys = Object.keys(data);
+    const cleanedData = [];
+    let isValid = true;
+    let errorMessage = '';
+    const numFileds = 5;
+    for (let i = 0; i < keys.length / numFileds; i++) {
+        let isRowPartiallyFilled = false;
+        let isRowCompletelyEmpty = true;
+        let row = {};
+
+        for (let j = 0; j < numFileds; j++) {
+            const key = keys[i * numFileds + j];
+            const value = data[key];
+
+            if (value.trim() !== "") {
+                row[key] = value;
+                isRowPartiallyFilled = true;
+                isRowCompletelyEmpty = false;
+            }
+        }
+
+        if (isRowPartiallyFilled) {
+            let isRowValid = true;
+            for (let j = 0; j < numFileds; j++) {
+                const key = keys[i * numFileds + j];
+                if (row[key] === undefined || row[key].trim() === "") {
+                    isValid = false;
+                    isRowValid = false;
+                    errorMessage = `Line ${i + 1} is not complete. Please fill in all fields.`;
+                    break;
+                }
+            }
+
+            if (isRowValid) {
+                console.log(row);
+                // clean the row
+                const keyRegEx = /_(\d+)/;// regx to match _number
+                let newRow = {};
+                Object.keys(row).forEach(key => {
+                    const newKey = key.replace(keyRegEx, '');
+                    newRow[newKey] = row[key];
+                })
+                // add row to cleanedData array
+                cleanedData.push(newRow);
+            }
+        }
+    }
+
+    return { valid: isValid, message: errorMessage, data: cleanedData };
+}
+
+
 const Plan = ({ muscle, clickCount }) => {
     const { register, handleSubmit, setValue, getValues, watch } = useForm();
     const [currentRows, setCurrentRows] = useState(DEFAULT_ROWS);
@@ -39,14 +92,14 @@ const Plan = ({ muscle, clickCount }) => {
     //initialize table
     useEffect(() => {
         const savedData = localStorage.getItem(STORAGE_KEY);
-    
+
         if (savedData) {
             const parsedData = JSON.parse(savedData);
-    
+
             // Update currentRows based on the stored data
             const rowsFromStorage = Object.keys(parsedData).length / 5; // 5 is the number of fields per row
             setCurrentRows(rowsFromStorage);
-    
+
             Object.entries(parsedData).forEach(([key, value]) => {
                 setValue(key, value);
             });
@@ -61,10 +114,10 @@ const Plan = ({ muscle, clickCount }) => {
             }
         }
     }, [setValue]);
-    
 
-      // helper function to check whether a new row should be added
-      const shouldAddRow = () => {
+
+    // helper function to check whether a new row should be added
+    const shouldAddRow = () => {
         for (let i = 0; i < currentRows; i++) {
             if (!getValues(`muscle_${i}`)) {
                 return false;
@@ -80,11 +133,11 @@ const Plan = ({ muscle, clickCount }) => {
         }
     }, [allFieldValues]);
 
-    
+
     useEffect(() => {
         if (muscle) { // when a muscle is selected and the prop changes
             let rowToFill = -1;
-    
+
             // check whether there's totally blank row in the current table 
             for (let i = 0; i < currentRows; i++) {
                 if (!getValues(`muscle_${i}`)) {
@@ -92,29 +145,60 @@ const Plan = ({ muscle, clickCount }) => {
                     break;
                 }
             }
-    
+
             // if there is a one empty row, add the muscle to it
             if (rowToFill !== -1) {
                 setValue(`muscle_${rowToFill}`, muscle);
-            } 
+            }
             // no empty row, add a new row
             else {
                 setValue(`muscle_${currentRows}`, muscle);
             }
         }
-    }, [muscle,clickCount,]);
-    
-    
+    }, [muscle, clickCount,]);
 
-    const onSubmit = data => {
-        alert(JSON.stringify(data));
+
+
+    const onSubmit = async (data) => {
+        // save locally first
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+        // validate data
+        const cleanedData = validatePlanData(data);
+        let combinedData = {};
+        if (!cleanedData.valid) alert("Invalid data: " + cleanedData.message);
+        else {
+            // combine data from form with calendar date, uid
+            // combine data
+            combinedData = {
+                uid: 5,
+                // uid is just for test
+                date: dateValue,
+                data: cleanedData.data
+            }
+        }
+        // submit data to server
+        try {
+            const response = await fetch('http://localhost:5001/home', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                // JSON.stringify(combinedData) to serialize the combinedData object to a JSON-formatted string that can be transmitted over the HTTP request.
+                body: JSON.stringify(combinedData)
+            });
+            const responseData = await response.json();
+            console.log(responseData);
+        } catch (error) {
+            console.log('error during fetch in submit training data', error);
+        }
+
     };
 
     const deleteRow = (indexToDelete) => {
         // 1. get all the data from localStorage
         const savedData = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-    
+
         // 2. move all the data one row up
         for (let i = indexToDelete + 1; i < currentRows; i++) {
             const muscleValue = getValues(`muscle_${i}`);
@@ -122,20 +206,20 @@ const Plan = ({ muscle, clickCount }) => {
             const repetitionsValue = getValues(`repetitions_${i}`);
             const setsValue = getValues(`sets_${i}`);
             const maximumValue = getValues(`maximum_${i}`);
-    
+
             setValue(`muscle_${i - 1}`, muscleValue);
             setValue(`exercise_${i - 1}`, exerciseValue);
             setValue(`repetitions_${i - 1}`, repetitionsValue);
             setValue(`sets_${i - 1}`, setsValue);
             setValue(`maximum_${i - 1}`, maximumValue);
-    
+
             savedData[`muscle_${i - 1}`] = muscleValue;
             savedData[`exercise_${i - 1}`] = exerciseValue;
             savedData[`repetitions_${i - 1}`] = repetitionsValue;
             savedData[`sets_${i - 1}`] = setsValue;
             savedData[`maximum_${i - 1}`] = maximumValue;
         }
-    
+
         // 4. delete the last row
         setValue(`muscle_${currentRows - 1}`, "");
         setValue(`exercise_${currentRows - 1}`, "");
@@ -148,14 +232,14 @@ const Plan = ({ muscle, clickCount }) => {
         delete savedData[`repetitions_${currentRows - 1}`];
         delete savedData[`sets_${currentRows - 1}`];
         delete savedData[`maximum_${currentRows - 1}`];
-    
+
         // 5. update the localStorage
         localStorage.setItem(STORAGE_KEY, JSON.stringify(savedData));
-    
+
         // 6. redcue the number of rows by 1
         setCurrentRows(prevRows => prevRows - 1);
     }
-    
+
 
     const clearRows = () => {
         for (let i = 0; i < currentRows; i++) {
@@ -168,84 +252,89 @@ const Plan = ({ muscle, clickCount }) => {
         setCurrentRows(DEFAULT_ROWS);
         localStorage.removeItem(STORAGE_KEY);
     }
-    
+
 
     return (
         <StyledPlan>
             <h2 align="center">Plan</h2>
             <CalendarContainer>
-                <DatePicker onChange={onChange} value = {dateValue} />
+                <DatePicker onChange={onChange} value={dateValue} />
             </CalendarContainer>
-            <StyledTableContainer>
-                <StyledTable id="planTable">
-                    <thead>
-                        <StyledTr>
-                            <StyledTh>Muscle</StyledTh>
-                            <StyledTh>Exercise</StyledTh>
-                            <StyledTh>Repetitions</StyledTh>
-                            <StyledTh>Sets</StyledTh>
-                            <StyledTh>Maximum</StyledTh>
-                            <StyledTh></StyledTh>
-                        </StyledTr>
-                    </thead>
-                    <tbody>
-                        {Array.from({ length: currentRows}).map((_, index) => (
-                            <StyledTr key={index}>
-                                <StyledMuscleTd>
-                                    <StyledInput
-                                        {...register(`muscle_${index}`)}
-                                        onChange={(e) => setValue(`muscle_${index}`, e.target.value)}
-                                    />
-                                </StyledMuscleTd>
-                                <StyledExerciseTd>
-                                    <StyledInput
-                                        {...register(`exercise_${index}`)}
-                                        onChange={(e) => setValue(`exercise_${index}`, e.target.value)}
-                                    />
-                                </StyledExerciseTd>
-                                <StyledTd>
-                                    <StyledInput
-                                        {...register(`repetitions_${index}`)}
-                                        type="number"
-                                        onChange={(e) => setValue(`repetitions_${index}`, e.target.value)}
-                                    />
-                                </StyledTd>
-                                <StyledTd>
-                                    <StyledInput
-                                        {...register(`sets_${index}`)}
-                                        type="number"
-                                        onChange={(e) => setValue(`sets_${index}`, e.target.value)}
-                                    />
-                                </StyledTd>
-                                <StyledTd>
-                                    <StyledInput
-                                        {...register(`maximum_${index}`)}
-                                        type="number"
-                                        onChange={(e) => setValue(`maximum_${index}`, e.target.value)}
-                                    />
-                                </StyledTd>
-                                <StyledTd>
-                                <FontAwesomeIcon
-                                    icon={faTrashCan}
-                                    style={{ cursor: 'pointer', color: '#FF5733' }}
-                                    onClick={() => {
-                                        if (window.confirm('Are you sure you want to delete this row?')) {
-                                        deleteRow(index)}}
-                                    }
-                                />
-                                   
-                                </StyledTd>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <StyledTableContainer>
+                    <StyledTable id="planTable">
+                        <thead>
+                            <StyledTr>
+                                <StyledTh>Muscle</StyledTh>
+                                <StyledTh>Exercise</StyledTh>
+                                <StyledTh>Repetitions</StyledTh>
+                                <StyledTh>Sets</StyledTh>
+                                <StyledTh>Maximum</StyledTh>
+                                <StyledTh></StyledTh>
                             </StyledTr>
-                        ))}
-                    </tbody>
-                </StyledTable>
-            </StyledTableContainer>
-            <StyledButtons>
-                <button type="button" onClick={handleSubmit(onSubmit)}>Save</button>
-                <button type="button" onClick={() => downloadTableAsImage("planTable")}>Download</button>
-                <button type="button" onClick={() => clearRows()}>Clear all</button>
-                <button type="button">Add to Calendar</button>
-            </StyledButtons>
+                        </thead>
+                        <tbody>
+                            {Array.from({ length: currentRows }).map((_, index) => (
+                                <StyledTr key={index}>
+                                    <StyledMuscleTd>
+                                        <StyledInput
+                                            {...register(`muscle_${index}`)}
+                                            onChange={(e) => setValue(`muscle_${index}`, e.target.value)}
+                                        />
+                                    </StyledMuscleTd>
+                                    <StyledExerciseTd>
+                                        <StyledInput
+                                            {...register(`exercise_${index}`)}
+                                            onChange={(e) => setValue(`exercise_${index}`, e.target.value)}
+                                        />
+                                    </StyledExerciseTd>
+                                    <StyledTd>
+                                        <StyledInput
+                                            {...register(`repetitions_${index}`)}
+                                            type="number"
+                                            onChange={(e) => setValue(`repetitions_${index}`, e.target.value)}
+                                        />
+                                    </StyledTd>
+                                    <StyledTd>
+                                        <StyledInput
+                                            {...register(`sets_${index}`)}
+                                            type="number"
+                                            onChange={(e) => setValue(`sets_${index}`, e.target.value)}
+                                        />
+                                    </StyledTd>
+                                    <StyledTd>
+                                        <StyledInput
+                                            {...register(`maximum_${index}`)}
+                                            type="number"
+                                            onChange={(e) => setValue(`maximum_${index}`, e.target.value)}
+                                        />
+                                    </StyledTd>
+                                    <StyledTd>
+                                        <FontAwesomeIcon
+                                            icon={faTrashCan}
+                                            style={{ cursor: 'pointer', color: '#FF5733' }}
+                                            onClick={() => {
+                                                if (window.confirm('Are you sure you want to delete this row?')) {
+                                                    deleteRow(index)
+                                                }
+                                            }
+                                            }
+                                        />
+
+                                    </StyledTd>
+                                </StyledTr>
+                            ))}
+                        </tbody>
+                    </StyledTable>
+                </StyledTableContainer>
+                <StyledButtons>
+                    <button type="submit" >Save</button>
+                    {/* in a form tag, you have to use type="submit" to submit the form data. */}
+                    {/* and when type is button, it means that button won't submit the form. */}
+                    <button type="button" onClick={() => downloadTableAsImage("planTable")}>Download</button>
+                    <button type="button" onClick={() => clearRows()}>Clear all</button>
+                </StyledButtons>
+            </form>
         </StyledPlan>
     )
 }

@@ -78,7 +78,6 @@ function Model({ setMuscleName, setMousePosition, onMouseClick }) {
         }
     };
 
-
     //Use cloneDeep to ensure not directly modifying the original gltf object
     const sceneClone = useMemo(() => gltf.scene.clone(true), [gltf.scene]);
     useEffect(() => {

@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import styled from 'styled-components';
 
-const WorkoutData = ({ data }) => {
+const DataDashboard = ({ data }) => {
     const ref = useRef(null);
 
     const [selectedMuscle, setSelectedMuscle] = useState(null);
@@ -86,7 +86,6 @@ const WorkoutData = ({ data }) => {
 
     return (
         <DataContainer>
-          <Title>Workout Data</Title>
           <DropdownContainer>
             <StyledSelect onChange={handleMuscleChange}>
               <option value="">Select muscle</option>
@@ -101,28 +100,24 @@ const WorkoutData = ({ data }) => {
               ))}
             </StyledSelect>
           </DropdownContainer>
+
           <StyledSVG ref={ref} width="600" height="600"></StyledSVG>
         </DataContainer>
       );
 }
 
-export default WorkoutData;
+export default DataDashboard;
 
 const DataContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   width: 100vw;
   padding: 20px;
   box-sizing: border-box;
   background-color: #f4f4f4;
 `;
 
-const Title = styled.h1`
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 20px;
-`;
 
 const DropdownContainer = styled.div`
   display: flex;

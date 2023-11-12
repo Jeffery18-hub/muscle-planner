@@ -44,8 +44,8 @@ const Video = ({ muscle }) => {
 
     useEffect(() => {
         const delay = setTimeout(() => {
-            const muscleName = searchItem + " exercise in gym";
-            fetch(`/search?search_query=${muscleName}`)
+            const muscleName = searchItem == null? "exercise in gym": searchItem + " exercise in gym";
+            fetch(`http://localhost:5001/youtube?search_query=${muscleName}`)
                 .then(response => response.json())
                 .then(ids => {
                     setVideoIds(ids);

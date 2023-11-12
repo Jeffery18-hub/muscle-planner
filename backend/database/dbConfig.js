@@ -25,7 +25,7 @@ const db = new sqlite3.Database('./mydatabase.db', (err) => {
             muscle TEXT NOT NULL,\
             exercise TEXT NOT NULL,\
             sets INTEGER NOT NULL,\
-            repititions INTEGER NOT NULL,\
+            repetitions INTEGER NOT NULL,\
             maximum REAL,\
             FOREIGN KEY(uid) REFERENCES users(uid)\
         )', (err) => {

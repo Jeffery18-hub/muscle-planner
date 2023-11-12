@@ -1,23 +1,18 @@
 const express = require('express');
 const axios = require('axios');
 const fs = require('fs');
+require('dotenv').config();
 const youtubeRouter = express.Router();
 let api_key = null;
 const base_url = 'https://www.googleapis.com/youtube/v3';
 
-// readFile is asynchronous
-// fs.readFile('./config.json', 'utf8', (err, data) => {
-//     if (err) {
-//         console.error('Error reading the file:', err);
-//         return;
-//     }
-//     const config = JSON.parse(data);
-//     api_key = config.youtubeKey;
-// });
 api_key = process.env.YOUTUBE_API_KEY;
+//api_key = 'AIzaSyBMbtny_A1BkKwLHbpHaWI1w_a2PPfzsxo'
+console.log(api_key)
 
 
 youtubeRouter.get('/', async (req, res, next) => {
+    console.log(req);
     try {
         const searchQuery = req.query.search_query;
         const maxResults = 10; 

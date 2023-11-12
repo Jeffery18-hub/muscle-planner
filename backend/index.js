@@ -15,7 +15,7 @@ app.use(express.json());
 
 //app.use(express.static(buildPath));
 app.use("/auth",authRouter);
-app.use("/search", youtubeRouter);
+app.use("/youtube", youtubeRouter);
 app.use("/home", trainingRouter);
 
 // app.get("/*", function(req, res){
