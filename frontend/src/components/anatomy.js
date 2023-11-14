@@ -117,7 +117,8 @@ function Anatomy({onMuscleClicked}) {
 
     return (
         <div
-            style={{ position: 'relative', width: '100%', height: '100%' }}
+            // TODO:consider the width and height
+            style={{ position: 'relative', width: '80%', height: '80%' }}
 
         >
             <Canvas camera={{ position: [0, 5, 20], fov: 100 }}>

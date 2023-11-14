@@ -9,7 +9,7 @@ const YoutubeContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: stretch;
-    width: 100vw;
+    width: 100%;
 `
 
 

@@ -1,12 +1,20 @@
 import React from "react";
+import styled from "styled-components";
 
 const Footer = () => {
     return (
-        // className="py-5 my-5 bg-dark"
-        <footer>
-            <p className="text-center">copy right@2023</p>
-        </footer>
+        <StyledFooter>
+            <p>copy right@2023</p>
+        </StyledFooter>
     );
 }
+
+const StyledFooter = styled.footer`
+    background-color: white;
+    color: black;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 0.8rem;
+`
 
 export default Footer;

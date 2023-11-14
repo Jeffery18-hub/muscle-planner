@@ -18,10 +18,11 @@ const BasicLayout = () => {
 }
 
 const LayoutContainer = styled.div`
-    display: grid;
-    grid-template-rows: 70px 1fr 50px;
-    height: 100vh;
-    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* avoid scrollbars horizontally */
+    min-height: 100vh; /* take up full viewport height */
+    box-sizing: border-box;
 `
     
 export default BasicLayout;

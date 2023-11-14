@@ -360,8 +360,8 @@ const StyledPlan = styled.div`
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr 7fr 1fr;
     border: 1px solid black;
-    height: 90%;
-    width: 90%;
+    height: 80%;
+    width: 80%;
     margin-left: 5%;
     margin-right: 5%;
     margin-top: 5%;

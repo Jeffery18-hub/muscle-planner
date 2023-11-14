@@ -9,7 +9,7 @@ const HomeContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: stretch;
-    width: 100vw;
+    width: 100%;
 `
 
 
@@ -25,10 +25,10 @@ const Home = () => {
 
     return(
         <HomeContainer>
-            <div style={{ border: '1px solid black', width: '50%'}}>
+            <div style={{ width: '50%'}}>
                 <Anatomy onMuscleClicked={handleMuscleClick}/>
             </div>
-            <div style={{ border: '1px solid black', width: '50%'}}>
+            <div style={{ width: '50%'}}>
                 <Plan muscle={clickedMuscle} clickCount={clickCount}/>
             </div>
         </HomeContainer>
