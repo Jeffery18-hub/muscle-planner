@@ -1,4 +1,3 @@
-import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Auth from "./containers/auth"
@@ -10,7 +9,6 @@ import Youtube from './containers/youtube';
 import UserCenter from './containers/userCenter';
 import { useContext } from 'react';
 import { AccountContext } from './contexts/accountContext';
-import data from './db/workout-data.json'
 import { Guest } from './containers/guest';
 
 function App() {
@@ -25,7 +23,7 @@ function App() {
         {isLoggedIn && (
           <Route path="/home" element={<BasicLayout />}>
             <Route index element={<Home />} />
-            <Route path="data" element={<DataDashboard data ={data}/>} />
+            <Route path="data" element={<DataDashboard/>} />
             <Route path="youtube" element={<Youtube />} />
             <Route path="account" element={<UserCenter />} />
           </Route>

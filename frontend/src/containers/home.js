@@ -6,6 +6,7 @@ import Plan from '../components/plan';
 
 
 const HomeContainer = styled.div`
+    flex: 5;
     display: flex;
     flex-direction: row;
     align-items: stretch;
@@ -25,14 +26,18 @@ const Home = () => {
 
     return(
         <HomeContainer>
-            <div style={{ width: '50%'}}>
+            <HomeContainerChild>
                 <Anatomy onMuscleClicked={handleMuscleClick}/>
-            </div>
-            <div style={{ width: '50%'}}>
+            </HomeContainerChild>
+            <HomeContainerChild>
                 <Plan muscle={clickedMuscle} clickCount={clickCount}/>
-            </div>
+            </HomeContainerChild>
         </HomeContainer>
     )
 }
+
+const HomeContainerChild = styled.div`
+    flex:1;
+`
 
 export default Home;

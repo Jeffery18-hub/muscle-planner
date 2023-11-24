@@ -17,6 +17,7 @@ app.use(express.json());
 app.use("/auth",authRouter);
 app.use("/youtube", youtubeRouter);
 app.use("/home", trainingRouter);
+app.use("/dashboard", trainingRouter);
 
 // app.get("/*", function(req, res){
 //     res.sendFile(

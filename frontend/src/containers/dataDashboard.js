@@ -1,20 +1,32 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import DataVisualizer from '../components/dataVisualizer';
 import Calendar from '../components/calendar';
 import Advice from '../components/advice';
+import axios from 'axios';
 
 const DataDashboard = ({ data }) => {
+  const [clickedEventOnCalendar, setClickedEventOnCalendar] = useState('');
+  const [exerciseData, setExerciseData] = useState([]);
+
+  // this is the callback function that is passed to the calendar
+  const handleEventClick = async (arg) => {
+    const { event } = arg; // destructure the event object
+    setClickedEventOnCalendar(event.title);
+    const response = await axios.get('http://localhost:5001/dashboard/visualizer?id=5&exercise=' + event.title);
+    setExerciseData(response.data);
+  }
+
   return (
     <DashboardContainer>
       <StyledData>
-        <DataVisualizer data={data} />
+        <DataVisualizer data = {exerciseData} exercise = {clickedEventOnCalendar} />
       </StyledData>
       <StyledAdvice>
         <Advice />
       </StyledAdvice>
       <StyledCalendar>
-        <Calendar />
+        <Calendar callback={handleEventClick} />
       </StyledCalendar>
       <StyledConclusion>
         <p>Conclusion here</p>

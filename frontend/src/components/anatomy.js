@@ -89,7 +89,7 @@ function Model({ setMuscleName, setMousePosition, onMouseClick }) {
                 child.material = child.material.clone();
             }
         });
-        console.log(res);
+        //console.log(res);
     }, [sceneClone]);
 
     return (
@@ -116,11 +116,7 @@ function Anatomy({onMuscleClicked}) {
     };
 
     return (
-        <div
-            // TODO:consider the width and height
-            style={{ position: 'relative', width: '80%', height: '80%' }}
-
-        >
+        <CanvasContainer>
             <Canvas camera={{ position: [0, 5, 20], fov: 100 }}>
                 <ambientLight />
                 <OrbitControls />
@@ -140,8 +136,17 @@ function Anatomy({onMuscleClicked}) {
                     }} 
                 />
             ): null}
-        </div>
+        </CanvasContainer>
     );
 }
+
+const CanvasContainer = styled.div`
+    dispaly: flex;
+    width: 100%;
+    height: 100%;
+    justfiy-content: center;
+    aling-items: center;
+    
+`
 
 export default Anatomy;

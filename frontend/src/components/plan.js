@@ -4,7 +4,8 @@ import styled, { keyframes } from 'styled-components';
 import html2canvas from "html2canvas";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import DatePicker from "react-date-picker";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 const DEFAULT_ROWS = 5;
@@ -85,7 +86,7 @@ const Plan = ({ muscle, clickCount }) => {
     const { register, handleSubmit, setValue, getValues, watch } = useForm();
     const [currentRows, setCurrentRows] = useState(DEFAULT_ROWS);
     const allFieldValues = watch();  // watch will return a form object and we can get values from here
-    const [dateValue, onChange] = useState(new Date());
+    const [dateValue, setDateValue] = useState(new Date());
 
 
     //initialize table
@@ -255,11 +256,17 @@ const Plan = ({ muscle, clickCount }) => {
 
     return (
         <StyledPlan>
-            <h2 align="center">Plan</h2>
+            <StyledTitle>Plan</StyledTitle>
             <CalendarContainer>
-                <DatePicker onChange={onChange} value={dateValue} />
+                <DatePicker
+                    showIcon
+                    selected={dateValue}
+                    onChange={(date) => setDateValue(date)}
+                    dateFormat="yyyy-MM-dd"
+                    // minDate={new Date()}
+                />
             </CalendarContainer>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <StyledForm onSubmit={handleSubmit(onSubmit)}>
                 <StyledTableContainer>
                     <StyledTable id="planTable">
                         <thead>
@@ -333,7 +340,7 @@ const Plan = ({ muscle, clickCount }) => {
                     <button type="button" onClick={() => downloadTableAsImage("planTable")}>Download</button>
                     <button type="button" onClick={() => clearRows()}>Clear all</button>
                 </StyledButtons>
-            </form>
+            </StyledForm>
         </StyledPlan>
     )
 }
@@ -356,25 +363,23 @@ const bounceColorChange = keyframes`
 
 
 const StyledPlan = styled.div`
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 7fr 1fr;
+    display: flex;
+    flex-direction: column;
     border: 1px solid black;
-    height: 80%;
-    width: 80%;
+    padding: 3%;
     margin-left: 5%;
     margin-right: 5%;
     margin-top: 5%;
     margin-bottom: 5%;
-
-    h2 {
-        animation: ${bounceColorChange} 2s infinite; // animation name and duration
-        text-align: center;
-        font-size: 24px;
-        font-weight: bold;
-        margin: 20px 0;
-    }
 `;
+
+const StyledTitle = styled.h2`
+    animation: ${bounceColorChange} 2s infinite; // animation name and duration
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+`
 
 const StyledButtons = styled.div`
     display: flex;
@@ -384,7 +389,6 @@ const StyledButtons = styled.div`
 `;
 
 const StyledTable = styled.table`
-    border: 1px solid black;
     border-collapse: collapse;
     text-align: left;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
@@ -424,9 +428,8 @@ const StyledInput = styled.input`
 `;
 
 const StyledTableContainer = styled.div`
-    overflow-x: auto;
-    overflow-y: auto;
-    max-height: 500px;
+    overflow: auto;
+    max-height: 300px;
     margin: 20px;
 `;
 
@@ -440,9 +443,14 @@ const StyledExerciseTd = styled(StyledTd)`
 
 const CalendarContainer = styled.div`
     display: flex;
-    z-index: 100;
+    z-index: 2; // raise above other elements
     justify-content: flex-end;  // aligns to the right
 `;
+
+const StyledForm = styled.form`
+    max-height: 500px;
+`
+
 
 
 export default Plan;

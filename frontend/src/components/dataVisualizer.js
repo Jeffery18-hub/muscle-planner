@@ -2,12 +2,14 @@ import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import styled from 'styled-components';
 
-const DataVisualizer = ({ data }) => {
-    const ref = useRef(null);
+const DataVisualizer = ({ data, exercise }) => {
+    const svgRef = useRef(null);
 
     const [selectedMuscle, setSelectedMuscle] = useState(null);
     const [selectedExercise, setSelectedExercise] = useState(null);
     const [filteredExercises, setFilteredExercises] = useState([]);
+
+
 
     const handleMuscleChange = (e) => {
         const muscle = e.target.value;
@@ -17,70 +19,79 @@ const DataVisualizer = ({ data }) => {
         setSelectedExercise('');  // Reset exercise selection
     };
 
+   const handleSVG = () => {
+    if (data && svgRef.current) {
+      const svg = d3.select(svgRef.current);
+      svg.selectAll('*').remove();  
+
+      const margin = { top: 40, right: 20, bottom: 60, left: 50 };
+      const width = 600 - margin.left - margin.right;
+      const height = 600 - margin.top - margin.bottom;
+
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+      // TODO:logic problem here
+      const filteredData = data.filter(d => {
+          if (d.exercise == selectedExercise) return true;
+          return false;
+      });
+
+      const minY = d3.min(filteredData, d => d.maximum);
+      const maxY = d3.max(filteredData, d => d.maximum);
+      const yBuffer = (maxY - minY) * 0.1;
+
+      const xScale = d3.scaleTime()
+          .domain(d3.extent(filteredData, d => new Date(d.date)))
+          .range([0, width]);
+
+      const yScale = d3.scaleLinear()
+          .domain([minY - yBuffer, maxY])
+          .range([height, 0]);
+
+      const xAxis = d3.axisBottom(xScale).ticks(5).tickFormat(d3.timeFormat('%Y-%m-%d'));
+      const yAxis = d3.axisLeft(yScale);
+
+      g.append('g')
+          .attr('transform', `translate(0,${height})`)
+          .call(xAxis)
+          .selectAll('text')
+          .attr('transform', 'rotate(-40)')
+          .style('text-anchor', 'end');
+
+      g.append('g').call(yAxis);
+
+      const line = d3.line()
+          .x(d => xScale(new Date(d.date)))
+          .y(d => yScale(d.maximum));
+
+      const path = g.append("path")
+          .datum(filteredData)
+          .attr("fill", "none")
+          .attr("stroke", "steelblue")
+          .attr("stroke-width", 1.5)
+          .attr("d", line);
+
+      const totalLength = path.node().getTotalLength();
+      path
+          .attr("stroke-dasharray", totalLength + " " + totalLength)
+          .attr("stroke-dashoffset", totalLength)
+          .transition()
+          .duration(2000)
+          .ease(d3.easeLinear)
+          .attr("stroke-dashoffset", 0);
+     }
+  }
+
+    // hook for the SVG to update when dropdown bars
     useEffect(() => {
-        if (data && ref.current) {
-            const svg = d3.select(ref.current);
-            svg.selectAll('*').remove();  
-
-            const margin = { top: 40, right: 20, bottom: 60, left: 50 };
-            const width = 600 - margin.left - margin.right;
-            const height = 600 - margin.top - margin.bottom;
-
-            const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
-
-            const filteredData = data.filter(d => {
-                if (!selectedMuscle || !selectedExercise) return false;
-                if (d.muscle !== selectedMuscle) return false;
-                if (d.exercise !== selectedExercise) return false;
-                return true;
-            });
-
-            const minY = d3.min(filteredData, d => d.maxWeight);
-            const maxY = d3.max(filteredData, d => d.maxWeight);
-            const yBuffer = (maxY - minY) * 0.1;
-
-            const xScale = d3.scaleTime()
-                .domain(d3.extent(filteredData, d => new Date(d.date)))
-                .range([0, width]);
-
-            const yScale = d3.scaleLinear()
-                .domain([minY - yBuffer, maxY])
-                .range([height, 0]);
-
-            const xAxis = d3.axisBottom(xScale).ticks(5).tickFormat(d3.timeFormat('%Y-%m-%d'));
-            const yAxis = d3.axisLeft(yScale);
-
-            g.append('g')
-                .attr('transform', `translate(0,${height})`)
-                .call(xAxis)
-                .selectAll('text')
-                .attr('transform', 'rotate(-40)')
-                .style('text-anchor', 'end');
-
-            g.append('g').call(yAxis);
-
-            const line = d3.line()
-                .x(d => xScale(new Date(d.date)))
-                .y(d => yScale(d.maxWeight));
-
-            const path = g.append("path")
-                .datum(filteredData)
-                .attr("fill", "none")
-                .attr("stroke", "steelblue")
-                .attr("stroke-width", 1.5)
-                .attr("d", line);
-
-            const totalLength = path.node().getTotalLength();
-            path
-                .attr("stroke-dasharray", totalLength + " " + totalLength)
-                .attr("stroke-dashoffset", totalLength)
-                .transition()
-                .duration(2000)
-                .ease(d3.easeLinear)
-                .attr("stroke-dashoffset", 0);
-
-        }
+        handleSVG();
     }, [data, selectedMuscle, selectedExercise]);
+
+    useEffect(() => {
+      if (exercise) {
+            setSelectedExercise(exercise);
+        }
+    }, [exercise]);
 
     const muscles = [...new Set(data.map(d => d.muscle))];
 
@@ -100,8 +111,7 @@ const DataVisualizer = ({ data }) => {
               ))}
             </StyledSelect>
           </DropdownContainer>
-
-          <StyledSVG ref={ref} width="600" height="600"></StyledSVG>
+          <StyledSVG ref={svgRef} width="600" height="600"></StyledSVG>
         </DataContainer>
       );
 }

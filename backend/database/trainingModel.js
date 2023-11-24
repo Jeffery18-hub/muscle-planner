@@ -16,6 +16,14 @@ const getTrainingDataByUserId = (uid, callback) => {
     });
 };
 
+// get training data by id and exercise
+const getTrainingDataByUserIdAndExercise = (uid, exercise, callback) => {
+    const sql = 'SELECT * FROM training WHERE uid = ? AND exercise = ?';
+    db.all(sql, [uid, exercise], (err, rows) => {
+        callback(err, rows);
+    });
+}
+
 // update training data
 const updateTrainingData = (tid, date, muscle, exercise, sets, repetitions, maximum, callback) => {
     const sql = 'UPDATE training SET date = ?, muscle = ?, exercise = ?, sets = ?, repetitions = ?, maximum = ? WHERE tid = ?';
@@ -36,5 +44,6 @@ module.exports = {
     addTrainingData,
     getTrainingDataByUserId,
     updateTrainingData,
-    deleteTrainingData
+    deleteTrainingData,
+    getTrainingDataByUserIdAndExercise
 };

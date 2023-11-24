@@ -6,9 +6,10 @@ import Video from '../components/video';
 
 
 const YoutubeContainer = styled.div`
+    flex: 5;
     display: flex;
     flex-direction: row;
-    align-items: stretch;
+    //align-items: stretch;
     width: 100%;
 `
 

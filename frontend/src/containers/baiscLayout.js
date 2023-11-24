@@ -23,6 +23,7 @@ const LayoutContainer = styled.div`
     width: 100%; /* avoid scrollbars horizontally */
     min-height: 100vh; /* take up full viewport height */
     box-sizing: border-box;
+    //justfiy-content: space-between; // to make header and footer stick to top and bottom
 `
     
 export default BasicLayout;

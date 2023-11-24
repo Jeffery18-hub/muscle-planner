@@ -11,7 +11,7 @@ youtubeRouter.get('/', async (req, res, next) => {
     try {
         const searchQuery = req.query.search_query;
         const maxResults = 10; 
-        console.log(api_key)
+        //console.log(api_key)
         const response = await axios.get(`${base_url}/search?key=${api_key}&type=video&part=snippet&maxResults=${maxResults}&q=${searchQuery}`);
         const videoIDs = response.data.items.map(item => item.id.videoId);
         res.send(videoIDs);
