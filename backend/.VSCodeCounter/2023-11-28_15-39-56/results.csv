@@ -1,0 +1,12 @@
+"filename", "language", "JavaScript", "JSON", "comment", "blank", "total"
+"/Users/tacodaddy/capstone/planner/backend/database/dbConfig.js", "JavaScript", 33, 0, 3, 5, 41
+"/Users/tacodaddy/capstone/planner/backend/database/trainingModel.js", "JavaScript", 32, 0, 5, 6, 43
+"/Users/tacodaddy/capstone/planner/backend/database/userModel.js", "JavaScript", 48, 0, 4, 7, 59
+"/Users/tacodaddy/capstone/planner/backend/index.js", "JavaScript", 19, 0, 14, 7, 40
+"/Users/tacodaddy/capstone/planner/backend/package-lock.json", "JSON", 0, 2356, 0, 1, 2357
+"/Users/tacodaddy/capstone/planner/backend/package.json", "JSON", 0, 23, 0, 1, 24
+"/Users/tacodaddy/capstone/planner/backend/routes/authRoute.js", "JavaScript", 35, 0, 2, 7, 44
+"/Users/tacodaddy/capstone/planner/backend/routes/gptRoute.js", "JavaScript", 26, 0, 0, 6, 32
+"/Users/tacodaddy/capstone/planner/backend/routes/trainingRoute.js", "JavaScript", 98, 0, 12, 16, 126
+"/Users/tacodaddy/capstone/planner/backend/routes/youtubeRoute.js", "JavaScript", 19, 0, 2, 3, 24
+"Total", "-", 310, 2379, 42, 59, 2790

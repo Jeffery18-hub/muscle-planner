@@ -1,14 +1,15 @@
-const express = require('express');
-const cors = require('cors');
-const authRouter = require('./routes/authRoute');
-const youtubeRouter = require('./routes/youtubeRoute');
-const trainingRouter = require('./routes/trainingRoute');
+import express, { json } from 'express';
+import cors from 'cors';
+import authRouter from './routes/authRoute.js';
+import youtubeRouter from './routes/youtubeRoute.js';
+import trainingRouter from './routes/trainingRoute.js';
+import gptRouter from './routes/gptRoute.js'; 
 const app = express();
 const port = 5001;
-const path  = require('path')
+import path from 'path';
 
 app.use(cors());
-app.use(express.json());
+app.use(json());
 
 //const _dirname = path.dirname("")
 //const buildPath = path.join(_dirname  , "../frontend/build");
@@ -18,6 +19,7 @@ app.use("/auth",authRouter);
 app.use("/youtube", youtubeRouter);
 app.use("/home", trainingRouter);
 app.use("/dashboard", trainingRouter);
+app.use("/gpt", gptRouter);
 
 // app.get("/*", function(req, res){
 //     res.sendFile(

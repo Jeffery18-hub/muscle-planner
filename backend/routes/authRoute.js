@@ -1,12 +1,12 @@
-const express = require('express');
-const authRouter = express.Router();
-const userModel = require('../database/userModel');
+import { Router } from 'express';
+const authRouter = Router();
+import { authenticateUser, addUser } from '../database/userModel.js';
 
 authRouter.post('/', (req, res) => {
     const { email, password, name, authMode } = req.body;
     // sign in
     if (authMode === 'signin') {
-        userModel.authenticateUser(email, password, (err, pwdCorrect, userExists) => {
+        authenticateUser(email, password, (err, pwdCorrect, userExists) => {
             if (err) {
                 res.send({ success: false, message: "Server error" });
                 return;
@@ -24,7 +24,7 @@ authRouter.post('/', (req, res) => {
         });
     }else {
         // sign up
-        userModel.addUser(name, email, password, (err, userExists) => {
+        addUser(name, email, password, (err, userExists) => {
             if (err) {
                 res.send({ success: false, message: "Failed to add user. Please try again later." });
                 return;
@@ -40,4 +40,4 @@ authRouter.post('/', (req, res) => {
 });
 
 
-module.exports = authRouter;
+export default authRouter;

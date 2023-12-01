@@ -1,10 +1,11 @@
-require('dotenv').config();
-const express = require('express');
-const axios = require('axios');
-const fs = require('fs');
-const youtubeRouter = express.Router();
+import dotenv from 'dotenv';
+dotenv.config();
+import { Router } from 'express';
+import axios from 'axios';
+const youtubeRouter = Router();
 const base_url = 'https://www.googleapis.com/youtube/v3';
 const api_key = process.env.YOUTUBE_API_KEY;
+
 
 youtubeRouter.get('/', async (req, res, next) => {
 //console.log(req);
@@ -20,4 +21,4 @@ youtubeRouter.get('/', async (req, res, next) => {
     }
 });
 
-module.exports = youtubeRouter;
+export default youtubeRouter;

@@ -50,7 +50,7 @@ const Video = ({ muscle }) => {
                 .then(ids => {
                     setVideoIds(ids);
                 });
-        }, 300);
+        }, 100);
 
         return () => {
             clearTimeout(delay);

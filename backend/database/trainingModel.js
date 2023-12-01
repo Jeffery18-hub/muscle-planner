@@ -1,4 +1,4 @@
-const db = require('./dbConfig.js');
+import db from './dbConfig.js';
 
 // add training data
 const addTrainingData = (uid, date, muscle, exercise, sets, repetitions, maximum, callback) => {
@@ -40,10 +40,4 @@ const deleteTrainingData = (tid, callback) => {
     });
 };
 
-module.exports = {
-    addTrainingData,
-    getTrainingDataByUserId,
-    updateTrainingData,
-    deleteTrainingData,
-    getTrainingDataByUserIdAndExercise
-};
+export { addTrainingData, getTrainingDataByUserId, getTrainingDataByUserIdAndExercise, updateTrainingData, deleteTrainingData };

@@ -68,3 +68,47 @@ export const MuscleDictionary = {
     "right_g_medius_mini": "Gracilis Medius and Gracilis Minimus",
     "right_gma": "Gracilis Major"
 };
+
+export const MuscleExercisesMap = {
+    chest: ["Bench Press", "Incline Bench Press", "Dumbbell Flyes"],
+    back: ["Deadlifts","Pull-ups", "Bent-over Rows", "Single-arm Dumbbell Rows", "Lat Pulldowns"],
+    legs: ["Squat", "Romanian Deadlifts", "Leg Curls", "Leg Press"],
+    smallMuscleGroups:["Dumbbell Curls", "Tricep Pushdowns", "Lateral Raises", "Seated or Standing Calf Raises"]
+}
+
+export const MuscleGroupsMap = {
+    "Deltoids": "Shoulders",
+    "Lateral Node": "Shoulders",
+    "Teres Major": "Back",
+    "Teres Minor": "Back",
+    "Biceps Femoris": "Legs",
+    "Semitendinosus": "Legs",
+    "Scalenus Medius": "Neck",
+    "Latissimus Dorsi": "Back",
+    "Serratus Anterior": "Chest",
+    "Trapezius": "Back",
+    "Rectus Femoris": "Legs",
+    "Sartorius": "Legs",
+    "Vastus Lateralis": "Legs",
+    "Vastus Medialis": "Legs",
+    "External Oblique": "Abdomen",
+    "Pectoralis Major": "Chest",
+    "Rectus Abdominis": "Abdomen",
+    "Adductor Longus": "Legs",
+    "Pectineus": "Legs",
+    "Anconeus": "Arms",
+    "Brachioradialis": "Arms",
+    "Extensor Carpi Radialis Brevis": "Arms",
+    "Extensor Carpi Radialis Longus": "Arms",
+    "Extensor Carpi Ulnaris": "Arms",
+    "Extensor Digitorum": "Arms",
+    "Extensor Digiti Minimi": "Arms",
+    "Flexor Carpi Radialis": "Arms",
+    "Flexor Carpi Ulnaris": "Arms",
+    "Pronator Teres": "Arms",
+    "Brachialis": "Arms",
+    "Biceps Brachii": "Arms",
+    "Triceps": "Arms",
+    "Gracilis Medius and Gracilis Minimus": "Legs",
+    "Gracilis Major": "Legs"
+  };

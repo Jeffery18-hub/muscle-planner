@@ -1,0 +1,68 @@
+Date : 2023-11-28 15:37:26
+Directory : /Users/tacodaddy/capstone/planner/frontend
+Total : 29 files,  21198 codes, 77 comments, 302 blanks, all 21577 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JSON       |          3 |     19,505 |          0 |          2 |     19,507 |
+| JavaScript |         23 |      1,681 |         73 |        299 |      2,053 |
+| HTML       |          2 |         10 |          0 |          1 |         11 |
+| CSS        |          1 |          2 |          4 |          0 |          6 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                          | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                             |         29 |     21,198 |         77 |        302 |     21,577 |
+| . (Files)                                                                     |          2 |     19,492 |          0 |          2 |     19,494 |
+| build                                                                         |          4 |         17 |          6 |          0 |         23 |
+| build (Files)                                                                 |          2 |         14 |          0 |          0 |         14 |
+| build/static                                                                  |          2 |          3 |          6 |          0 |          9 |
+| build/static/css                                                              |          1 |          2 |          4 |          0 |          6 |
+| build/static/js                                                               |          1 |          1 |          2 |          0 |          3 |
+| public                                                                        |          1 |          9 |          0 |          1 |         10 |
+| src                                                                           |         22 |      1,680 |         71 |        299 |      2,050 |
+| src (Files)                                                                   |          3 |        159 |          0 |          6 |        165 |
+| src/components                                                                |         10 |        888 |         45 |        181 |      1,114 |
+| src/containers                                                                |          8 |        610 |         26 |        104 |        740 |
+| src/contexts                                                                  |          1 |         23 |          0 |          8 |         31 |
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                      | language   | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| /Users/tacodaddy/capstone/planner/frontend/build/asset-manifest.json          | JSON       |         13 |          0 |          0 |         13 |
+| /Users/tacodaddy/capstone/planner/frontend/build/index.html                   | HTML       |          1 |          0 |          0 |          1 |
+| /Users/tacodaddy/capstone/planner/frontend/build/static/css/main.bebec81d.css | CSS        |          2 |          4 |          0 |          6 |
+| /Users/tacodaddy/capstone/planner/frontend/build/static/js/main.70d6e85a.js   | JavaScript |          1 |          2 |          0 |          3 |
+| /Users/tacodaddy/capstone/planner/frontend/package-lock.json                  | JSON       |     19,432 |          0 |          1 |     19,433 |
+| /Users/tacodaddy/capstone/planner/frontend/package.json                       | JSON       |         60 |          0 |          1 |         61 |
+| /Users/tacodaddy/capstone/planner/frontend/public/index.html                  | HTML       |          9 |          0 |          1 |         10 |
+| /Users/tacodaddy/capstone/planner/frontend/src/App.js                         | JavaScript |         35 |          0 |          2 |         37 |
+| /Users/tacodaddy/capstone/planner/frontend/src/components/advice.js           | JavaScript |         40 |          4 |         16 |         60 |
+| /Users/tacodaddy/capstone/planner/frontend/src/components/anatomy.js          | JavaScript |        127 |          8 |         18 |        153 |
+| /Users/tacodaddy/capstone/planner/frontend/src/components/calendar.js         | JavaScript |         31 |          0 |          5 |         36 |
+| /Users/tacodaddy/capstone/planner/frontend/src/components/conclusion.js       | JavaScript |         40 |          4 |         14 |         58 |
+| /Users/tacodaddy/capstone/planner/frontend/src/components/footer.js           | JavaScript |         18 |          0 |          3 |         21 |
+| /Users/tacodaddy/capstone/planner/frontend/src/components/header.js           | JavaScript |         64 |          0 |         15 |         79 |
+| /Users/tacodaddy/capstone/planner/frontend/src/components/lineChart.js        | JavaScript |         65 |          1 |         18 |         84 |
+| /Users/tacodaddy/capstone/planner/frontend/src/components/pieChart.js         | JavaScript |         53 |          4 |         19 |         76 |
+| /Users/tacodaddy/capstone/planner/frontend/src/components/plan.js             | JavaScript |        372 |         24 |         60 |        456 |
+| /Users/tacodaddy/capstone/planner/frontend/src/components/video.js            | JavaScript |         78 |          0 |         13 |         91 |
+| /Users/tacodaddy/capstone/planner/frontend/src/containers/auth.js             | JavaScript |        180 |          1 |         22 |        203 |
+| /Users/tacodaddy/capstone/planner/frontend/src/containers/baiscLayout.js      | JavaScript |         25 |          1 |          3 |         29 |
+| /Users/tacodaddy/capstone/planner/frontend/src/containers/dataDashboard.js    | JavaScript |        190 |         20 |         38 |        248 |
+| /Users/tacodaddy/capstone/planner/frontend/src/containers/guest.js            | JavaScript |         60 |          0 |          9 |         69 |
+| /Users/tacodaddy/capstone/planner/frontend/src/containers/home.js             | JavaScript |         34 |          1 |          9 |         44 |
+| /Users/tacodaddy/capstone/planner/frontend/src/containers/landingPage.js      | JavaScript |         85 |          1 |         14 |        100 |
+| /Users/tacodaddy/capstone/planner/frontend/src/containers/userCenter.js       | JavaScript |          8 |          0 |          1 |          9 |
+| /Users/tacodaddy/capstone/planner/frontend/src/containers/youtube.js          | JavaScript |         28 |          2 |          8 |         38 |
+| /Users/tacodaddy/capstone/planner/frontend/src/contexts/accountContext.js     | JavaScript |         23 |          0 |          8 |         31 |
+| /Users/tacodaddy/capstone/planner/frontend/src/index.js                       | JavaScript |         12 |          0 |          2 |         14 |
+| /Users/tacodaddy/capstone/planner/frontend/src/muscleDictionary.js            | JavaScript |        112 |          0 |          2 |        114 |
+| Total                                                                         |            |     21,198 |         77 |        302 |     21,577 |
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

@@ -12,7 +12,7 @@ const StyledTag = styled.div`
     padding: 5px 10px;                       
     border-radius: 5px;                      
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
-    position: absolute;                    
+    position: absolute;
 `;
 
 const MuscleTag = ({ name, style }) => {
@@ -21,9 +21,9 @@ const MuscleTag = ({ name, style }) => {
     )
 }
 
-const Tag = styled(MuscleTag)`
-    display: 'block';
-`
+// const Tag = styled(MuscleTag)`
+//     display: 'block';
+// `
 
 function Model({ setMuscleName, setMousePosition, onMouseClick }) {
     const gltf = useLoader(GLTFLoader, "/models/muscle_jun.glb");

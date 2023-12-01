@@ -1,6 +1,6 @@
-const express = require('express');
-const trainingRouter = express.Router();
-const trainingModel = require('../database/trainingModel');
+import { Router } from 'express';
+const trainingRouter = Router();
+import { addTrainingData, getTrainingDataByUserId, getTrainingDataByUserIdAndExercise } from '../database/trainingModel.js';
 
 trainingRouter.post('/', (req, res) => {
     const { uid, date, data } = req.body;
@@ -13,7 +13,7 @@ trainingRouter.post('/', (req, res) => {
             parseFloat(element.maximum));
 
             //TODO: transaction, anyone fail leads to all failure
-            trainingModel.addTrainingData(uid, new Date(date), element.muscle, element.exercise, 
+            addTrainingData(uid, new Date(date), element.muscle, element.exercise, 
                 parseInt(element.sets,10), parseInt(element.repetitions,10), 
                 parseFloat(element.maximum), (err) => {
                 if (err) {
@@ -37,10 +37,11 @@ trainingRouter.post('/', (req, res) => {
         });
 });
 
+// this is for calendar: get all user data and then filter by date range
 trainingRouter.get('/calendar', (req, res) => {
     // console.log(req.query);
     const { id, startDate, endDate } = req.query;
-    trainingModel.getTrainingDataByUserId(parseInt(id,10), (err, trainingData) => {
+    getTrainingDataByUserId(parseInt(id,10), (err, trainingData) => {
         if (err) {
             res.status(500).send({ success: false, message: "Failed to get training data. Please try again later." });
         } else {
@@ -62,9 +63,10 @@ trainingRouter.get('/calendar', (req, res) => {
     });
 });
 
+// this is for the visualizer: get user data on exercise
 trainingRouter.get('/visualizer', (req, res) => {
     const {id, exercise} = req.query;
-    trainingModel.getTrainingDataByUserIdAndExercise(parseInt(id,10), exercise, (err, trainingData) => {
+    getTrainingDataByUserIdAndExercise(parseInt(id,10), exercise, (err, trainingData) => {
         if (err) {
             res.status(500).send({ success: false, message: "Failed to get training data. Please try again later." });
         } else {
@@ -72,6 +74,7 @@ trainingRouter.get('/visualizer', (req, res) => {
             const sendData = trainingData.map(training => {
                 return {
                     date: timestampToStr(training.date),
+                    muscle: training.muscle,
                     exercise: training.exercise,
                     sets: training.sets,
                     repetitions: training.repetitions,
@@ -82,6 +85,30 @@ trainingRouter.get('/visualizer', (req, res) => {
         }
     });
 });
+
+// this is for the gpt prompt: get user's whole data
+trainingRouter.get('/gpt', (req, res) => {
+    const {id} = req.query;
+    getTrainingDataByUserId(parseInt(id,10), (err, trainingData) => {
+        if (err) {
+            res.status(500).send({ success: false, message: "Failed to get training data. Please try again later." });
+        } else {
+            // restructure the data to be in a format that the gpt can use
+            const sendData = trainingData.map(training => {
+                return {
+                    date: timestampToStr(training.date),
+                    muscle: training.muscle,
+                    exercise: training.exercise,
+                    sets: training.sets,
+                    repetitions: training.repetitions,
+                    maximum: training.maximum,
+                }
+            });
+            res.send(sendData);
+        }
+    });
+
+})
 
 
 
@@ -95,4 +122,4 @@ const timestampToStr = (timestampToConvert) => {
     return formattedDate;
 }
 
-module.exports = trainingRouter;
+export default trainingRouter;

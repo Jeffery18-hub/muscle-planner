@@ -1,5 +1,5 @@
-const db = require('./dbConfig.js');
-const bcrypt = require('bcrypt');
+import db from './dbConfig.js';
+import { hash as _hash, compare } from 'bcrypt';
 
 const saltRounds = 10;
 
@@ -17,7 +17,7 @@ const addUser = (name, email, password, callback) => {
         }
         else { // user does not exist
             // Hash the password
-            bcrypt.hash(password, saltRounds, (err, hash) => {
+            _hash(password, saltRounds, (err, hash) => {
                 if (err) { // hash error
                     callback(err,false);
                     return;
@@ -42,7 +42,7 @@ const authenticateUser = (email, password, callback) => {
                 return;
             }
             if (row) { // user exists
-                bcrypt.compare(password, row.password, (err, same) => {
+                compare(password, row.password, (err, same) => {
                     if (err) { // hash error in bcrypt function
                         callback(err, false, false);
                         return;
@@ -55,7 +55,4 @@ const authenticateUser = (email, password, callback) => {
         });
     };
 
-    module.exports = {
-        addUser,
-        authenticateUser
-    };
+export { addUser, authenticateUser };

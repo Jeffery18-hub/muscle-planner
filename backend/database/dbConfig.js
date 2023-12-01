@@ -1,4 +1,4 @@
-const sqlite3 = require('sqlite3').verbose();
+import sqlite3 from'sqlite3';
 
 // create a new database called mydatabase.db
 const db = new sqlite3.Database('./mydatabase.db', (err) => {
@@ -37,4 +37,4 @@ const db = new sqlite3.Database('./mydatabase.db', (err) => {
 });
 
 
-module.exports = db;
+export default db;
