@@ -20,7 +20,7 @@ gptRouter.get("/", async (req, res, next) => {
                 }
             ]
         });
-        res.send(response.choices[0].message);
+        res.status(200).send(response.choices[0].message);
     } catch (error) {
         next(error);
     }

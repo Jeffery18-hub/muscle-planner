@@ -26,7 +26,7 @@ const Auth = ({info}) => {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
+        console.log("Response:", data);
         if (data.success === true && data.message === "Sign up success") {
             alert('Sign up successfully!');
             setIsLoggedIn(true);

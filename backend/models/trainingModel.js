@@ -1,7 +1,5 @@
-import db from './dbConfig.js';
-
 // add training data
-const addTrainingData = (uid, date, muscle, exercise, sets, repetitions, maximum, callback) => {
+const addTrainingData = (db,uid, date, muscle, exercise, sets, repetitions, maximum, callback) => {
     const sql = 'INSERT INTO training (uid, date, muscle, exercise, sets, repetitions, maximum) VALUES (?, ?, ?, ?, ?, ?, ?)';
     db.run(sql, [uid, date, muscle, exercise, sets, repetitions, maximum], function(err) {
         callback(err);
@@ -9,7 +7,7 @@ const addTrainingData = (uid, date, muscle, exercise, sets, repetitions, maximum
 };
 
 // get training data by id
-const getTrainingDataByUserId = (uid, callback) => {
+const getTrainingDataByUserId = (db, uid, callback) => {
     const sql = 'SELECT * FROM training WHERE uid = ?';
     db.all(sql, [uid], (err, rows) => {
         callback(err, rows);
@@ -17,7 +15,7 @@ const getTrainingDataByUserId = (uid, callback) => {
 };
 
 // get training data by id and exercise
-const getTrainingDataByUserIdAndExercise = (uid, exercise, callback) => {
+const getTrainingDataByUserIdAndExercise = (db,uid, exercise, callback) => {
     const sql = 'SELECT * FROM training WHERE uid = ? AND exercise = ?';
     db.all(sql, [uid, exercise], (err, rows) => {
         callback(err, rows);
@@ -25,7 +23,7 @@ const getTrainingDataByUserIdAndExercise = (uid, exercise, callback) => {
 }
 
 // update training data
-const updateTrainingData = (tid, date, muscle, exercise, sets, repetitions, maximum, callback) => {
+const updateTrainingData = (db, tid, date, muscle, exercise, sets, repetitions, maximum, callback) => {
     const sql = 'UPDATE training SET date = ?, muscle = ?, exercise = ?, sets = ?, repetitions = ?, maximum = ? WHERE tid = ?';
     db.run(sql, [date, muscle, exercise, sets, repetitions, maximum, tid], function(err) {
         callback(err);
@@ -33,7 +31,7 @@ const updateTrainingData = (tid, date, muscle, exercise, sets, repetitions, maxi
 };
 
 // delete training data
-const deleteTrainingData = (tid, callback) => {
+const deleteTrainingData = (db, tid, callback) => {
     const sql = 'DELETE FROM training WHERE tid = ?';
     db.run(sql, [tid], function(err) {
         callback(err);

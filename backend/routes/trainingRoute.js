@@ -1,19 +1,15 @@
 import { Router } from 'express';
 const trainingRouter = Router();
-import { addTrainingData, getTrainingDataByUserId, getTrainingDataByUserIdAndExercise } from '../database/trainingModel.js';
+import { addTrainingData, getTrainingDataByUserId, getTrainingDataByUserIdAndExercise } from '../models/trainingModel.js';
+import { mainDB } from '../database/dbConfig.js';
 
 trainingRouter.post('/', (req, res) => {
     const { uid, date, data } = req.body;
     // Convert each addTrainingData call to a promise
     let trainingPromises = data.map(element => {
         return new Promise((resolve, reject) => {
-            
-            console.log(uid, new Date(date), element.muscle, element.exercise, 
-            parseInt(element.sets,10), parseInt(element.repetitions,10), 
-            parseFloat(element.maximum));
-
             //TODO: transaction, anyone fail leads to all failure
-            addTrainingData(uid, new Date(date), element.muscle, element.exercise, 
+            addTrainingData(mainDB,uid, new Date(date), element.muscle, element.exercise, 
                 parseInt(element.sets,10), parseInt(element.repetitions,10), 
                 parseFloat(element.maximum), (err) => {
                 if (err) {
@@ -41,7 +37,7 @@ trainingRouter.post('/', (req, res) => {
 trainingRouter.get('/calendar', (req, res) => {
     // console.log(req.query);
     const { id, startDate, endDate } = req.query;
-    getTrainingDataByUserId(parseInt(id,10), (err, trainingData) => {
+    getTrainingDataByUserId(mainDB, parseInt(id,10), (err, trainingData) => {
         if (err) {
             res.status(500).send({ success: false, message: "Failed to get training data. Please try again later." });
         } else {
@@ -66,7 +62,7 @@ trainingRouter.get('/calendar', (req, res) => {
 // this is for the visualizer: get user data on exercise
 trainingRouter.get('/visualizer', (req, res) => {
     const {id, exercise} = req.query;
-    getTrainingDataByUserIdAndExercise(parseInt(id,10), exercise, (err, trainingData) => {
+    getTrainingDataByUserIdAndExercise(mainDB, parseInt(id,10), exercise, (err, trainingData) => {
         if (err) {
             res.status(500).send({ success: false, message: "Failed to get training data. Please try again later." });
         } else {
@@ -89,7 +85,7 @@ trainingRouter.get('/visualizer', (req, res) => {
 // this is for the gpt prompt: get user's whole data
 trainingRouter.get('/gpt', (req, res) => {
     const {id} = req.query;
-    getTrainingDataByUserId(parseInt(id,10), (err, trainingData) => {
+    getTrainingDataByUserId(mainDB, parseInt(id,10), (err, trainingData) => {
         if (err) {
             res.status(500).send({ success: false, message: "Failed to get training data. Please try again later." });
         } else {
@@ -114,9 +110,9 @@ trainingRouter.get('/gpt', (req, res) => {
 
 const timestampToStr = (timestampToConvert) => {
     let date = new Date(timestampToConvert);
-    let year = date.getFullYear(); // 获取年份
-    let month = date.getMonth() + 1; // 获取月份，月份从0开始计数，所以加1
-    let day = date.getDate(); // 获取日
+    let year = date.getFullYear(); // get year
+    let month = date.getMonth() + 1; // get month
+    let day = date.getDate(); // date
 
     let formattedDate = year + '-' + month.toString().padStart(2, '0') + '-' + day.toString().padStart(2, '0');
     return formattedDate;

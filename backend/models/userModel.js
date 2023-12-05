@@ -1,9 +1,8 @@
-import db from './dbConfig.js';
 import { hash as _hash, compare } from 'bcrypt';
 
 const saltRounds = 10;
 
-const addUser = (name, email, password, callback) => {
+const addUser = (db, name, email, password, callback) => {
     // check if the user exists
     const sql = 'SELECT * FROM users WHERE email = ?';
     db.get(sql, [email], (err, row) => {
@@ -33,7 +32,7 @@ const addUser = (name, email, password, callback) => {
     })
 };
 
-const authenticateUser = (email, password, callback) => {
+const authenticateUser = (db, email, password, callback) => {
         const sql = 'SELECT password FROM users WHERE email = ?';
         db.get(sql, [email], (err, row) => {
             if (err) { // server error
@@ -55,4 +54,4 @@ const authenticateUser = (email, password, callback) => {
         });
     };
 
-export { addUser, authenticateUser };
+export { addUser , authenticateUser };
