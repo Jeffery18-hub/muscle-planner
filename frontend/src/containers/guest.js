@@ -57,7 +57,7 @@ export const Guest = () => {
     return (
         <GuestContainer>
             <IntroSection>Welcome to the Guest Page</IntroSection>
-            <Anatomy/>
+            <Anatomy onMuscleClicked={() => {console.log("do you love me?")}}/>
             <div>
                 <LoginButton onClick={handleLoginClick}>Login</LoginButton>
                 <RegisterButton onClick={handleRegisterClick}>Register</RegisterButton>

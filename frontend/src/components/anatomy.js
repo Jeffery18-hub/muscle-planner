@@ -10,7 +10,8 @@ const StyledTag = styled.div`
     background-color: rgba(50, 50, 50, 0.8);  
     color: white;                             
     padding: 5px 10px;                       
-    border-radius: 5px;                      
+    border-radius: 5px;
+    border: 2px solid black;                      
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
     position: absolute;
 `;
@@ -21,13 +22,9 @@ const MuscleTag = ({ name, style }) => {
     )
 }
 
-// const Tag = styled(MuscleTag)`
-//     display: 'block';
-// `
-
 function Model({ setMuscleName, setMousePosition, onMouseClick }) {
     const gltf = useLoader(GLTFLoader, "/models/muscle_jun.glb");
-    const { scene, camera } = useThree(); 
+    // const { scene, camera } = useThree(); 
     const meshRef = useRef(); // get a reference to the mesh
     const [highlightedMesh, setHighlightedMesh] = useState(false); 
 
@@ -127,25 +124,25 @@ function Anatomy({onMuscleClicked}) {
                     />
                 <Environment files="/models/gym_01_4k.hdr" background />
             </Canvas>
-            {muscleName && !muscleName.includes('Object')? (
-                <MuscleTag 
+            {muscleName && !muscleName.includes('Object') ? (
+                <MuscleTag
                     name={muscleName}
-                    style={{ 
-                        left: `${mousePosition.x}px`, 
-                        top: `${mousePosition.y-30}px` 
-                    }} 
+                    style={{
+                        left: `${mousePosition.x}px`,
+                        top: `${mousePosition.y - 60}px`
+                    }}
                 />
-            ): null}
+            ) : null}
         </CanvasContainer>
     );
 }
 
 const CanvasContainer = styled.div`
-    dispaly: flex;
+    display: flex;
     width: 100%;
     height: 100%;
-    justfiy-content: center;
-    aling-items: center;
+    justify-content: center;
+    align-items: center;
     
 `
 
