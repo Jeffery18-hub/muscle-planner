@@ -1,6 +1,10 @@
 import app from "./app.js";
+import connection from "./config/db.js";
 
-// app listen on port
-app.listen(5001, () => {
-    console.log(`Server is running on port 5001`);
-});
+// connect to db
+const port = process.env.PORT;
+connection.once("open", () => {
+    app.listen(port, () => {
+        console.log(`Server is running on port: ${port}`);
+    })
+})
