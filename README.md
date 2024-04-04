@@ -12,39 +12,29 @@ Node.js, Express.js, Mongodb, Restful APIs
 
 React, Three.js, D3.js
 
+### Tools
+
+Vite(build tool), Mongodb compass, Postman
+
 ## Database(configuration)
 
-1. MongoBD atlas as remote database. You can also use local database under development. MongoDB compass is a GUI that help to handle the connections. 
+1. MongoBD atlas as remote database. You can also use local database under development. MongoDB compass helps to handle the connections. 
 2. Used the **mongoose** as ODM( object document mapping);
 3. Initialized the **Express** application, connect to remote database via mongoose.connect function, and finally started the server to listen on port 3000.
 
-## Routers
+## Routers(backend)
 
 ### Authentication
 
 #### Signup
 
-Post  /api/signup
+Post  /api/user/signup
 
 #### Login
 
-Post  /api/login
+Post  /api/user/login
 
-### Training
-
-#### Add One
-
-Post /api/train/:uid
-
-#### Update One
-
-Patch /api/train/:tid
-
-#### Get All
-
-Get /api/train/:uid
-
-### User
+### User Profile
 
 #### Get Profile
 
@@ -53,4 +43,18 @@ Get /api/profile/:uid
 #### Update Profile
 
 Patch /api/profile/:uid
+
+### Training
+
+#### Add One
+
+Post /api/training/:uid
+
+#### Update One
+
+Patch /api/training/:tid
+
+#### Get All
+
+Get /api/training/:uid
 
