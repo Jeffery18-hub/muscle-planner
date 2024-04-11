@@ -16,8 +16,8 @@ app.get("/", (_req, res) => {
 })
 
 app.use("/api/user", userRouter);
+app.use("/api/training", trainingRouter);
 
-// app.use("/auth",authRouter);
 // app.use("/youtube", youtubeRouter);
 // app.use("/home", trainingRouter);
 // app.use("/dashboard", trainingRouter);

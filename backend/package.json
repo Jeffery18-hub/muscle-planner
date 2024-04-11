@@ -9,11 +9,13 @@
   },
   "scripts": {
     "dev": "nodemon index.js",
+    "seed": "node config/seed.js",
     "secret": "node utils/JWTsecret.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "argon2": "^0.40.1",
     "axios": "^1.5.0",
     "cors": "^2.8.5",

@@ -1,5 +1,12 @@
 import { Router } from 'express';
-const trainingRouter = Router();
+import {get_TrainingData, post_TrainingData, patch_TrainingData} from "../controllers/trainingController.js"
+const router = Router();
+
+
+// TODO: add validation middleware
+router.get("/:id", get_TrainingData);
+router.post("/:id", post_TrainingData);
+router.patch("/:id", patch_TrainingData);
 
 
 // trainingRouter.post('/', (req, res) => {
@@ -117,4 +124,4 @@ const timestampToStr = (timestampToConvert) => {
     return formattedDate;
 }
 
-export default trainingRouter;
+export default router;

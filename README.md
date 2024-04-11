@@ -18,7 +18,7 @@ Vite(build tool), Mongodb compass, Postman
 
 ## Database(configuration)
 
-1. MongoBD atlas as remote database. You can also use local database under development. MongoDB compass helps to handle the connections. 
+1. MongoBD atlas as remote database. You can also use local database under development. MongoDB compass helps to handle the connections.
 2. Used the **mongoose** as ODM( object document mapping);
 3. Initialized the **Express** application, connect to remote database via mongoose.connect function, and finally started the server to listen on port 3000.
 
@@ -57,4 +57,18 @@ Patch /api/training/:tid
 #### Get All
 
 Get /api/training/:uid
+
+
+
+## Models
+
+For model layers, using Schema interface to define the user schema and training schema.
+
+Then, export moogoose.model('collection name', schema) which return the model of a collection.
+
+
+
+## Controllers
+
+defines some functions to handle databases via modles.
 

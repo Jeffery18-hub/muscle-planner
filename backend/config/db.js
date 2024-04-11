@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+
 const {DATABASE_REMOTE, DATABASE_PASSWORD} = process.env;
 const DB_URL = DATABASE_REMOTE.replace('<PASSWORD>', DATABASE_PASSWORD);
 
