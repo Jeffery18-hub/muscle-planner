@@ -7,7 +7,7 @@ const trainingRouter = Router();
 //     // Convert each addTrainingData call to a promise
 //     let trainingPromises = data.map(element => {
 //         return new Promise((resolve, reject) => {
-//             //TODO: transaction, anyone fail leads to all failure
+
 //             addTrainingData(mainDB,uid, new Date(date), element.muscle, element.exercise, 
 //                 parseInt(element.sets,10), parseInt(element.repetitions,10), 
 //                 parseFloat(element.maximum), (err) => {
