@@ -72,3 +72,7 @@ Then, export moogoose.model('collection name', schema) which return the model of
 
 defines some functions to handle databases via modles.
 
+## Fake Data
+
+Used module  faker-js/faker to fake some user and training data.
+
